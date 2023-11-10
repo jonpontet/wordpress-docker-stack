@@ -1,0 +1,69 @@
+# docker-compose.yml
+# Defines our containers and the images that they use.
+
+version: '3.3'
+
+services:
+  db:
+    container_name: ${DOCKER_DB_CONTAINER}
+    image: mariadb:10.6
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci'
+    ]
+    volumes:
+      - db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: ${WP_DB_USER}
+      MYSQL_PASSWORD: ${WP_DB_PASSWORD}
+      MYSQL_DATABASE: ${WP_DB_NAME}
+    ports:
+      - "3306:3306"
+    networks:
+      - web
+
+  web:
+    container_name: ${DOCKER_WEB_CONTAINER}
+    depends_on:
+      - db
+    image: image_name # Enter the name you built the image as
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+      - "8443:443"
+    hostname: local.localdev
+    networks:
+      web:
+        aliases:
+          - local.localdev
+    restart: always
+    volumes:
+      - ./:${SERVER_PATH}
+      - ./conf/php/php.ini:/usr/local/etc/php/php.ini
+      - ./conf/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+
+  wp-cli:
+    container_name: ${DOCKER_WP_CLI_CONTAINER}
+    depends_on:
+      - web
+    image: wordpress:cli-php8.2
+    user: 1000:1000
+    command: tail -f /dev/null
+    volumes:
+      - ./:${SERVER_PATH}
+    environment:
+      WORDPRESS_DB_HOST: ${WP_DB_HOST}
+      WORDPRESS_DB_USER: ${WP_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WP_DB_NAME}
+    networks:
+      - web
+
+volumes:
+  db:
+
+networks:
+  web:
