@@ -23,7 +23,7 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-install exif \
     && docker-php-ext-install zip
 
-# Enable PHP extensions
+# Enable PHP extensions.
 RUN docker-php-ext-enable igbinary
 
 # Install composer 2.2.
@@ -31,9 +31,9 @@ RUN curl https://getcomposer.org/installer > composer-setup.php && php composer-
 RUN chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer
 
 # Enable SSL for Apache.
-COPY ./conf/apache/certificate.pem /etc/ssl/certs/
-COPY ./conf/apache/certificate-key.pem /etc/ssl/private/
-RUN ln -s /etc/apache2/mods-available/ssl.load  /etc/apache2/mods-enabled/ssl.load
+#COPY ./conf/apache/certificate.pem /etc/ssl/certs/
+#COPY ./conf/apache/certificate-key.pem /etc/ssl/private/
+#RUN ln -s /etc/apache2/mods-available/ssl.load  /etc/apache2/mods-enabled/ssl.load
 
 # Enable mod_rewrite for Apache.
 RUN a2enmod rewrite

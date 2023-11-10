@@ -23,7 +23,7 @@ import-uploads:
 .PHONY: docker-build
 docker-build:
 	@echo "Building docker..."
-	docker build -t pontetlabs-web:latest .
+	docker build -t $(filter-out $@,$(MAKECMDGOALS)):latest .
 
 .PHONY: docker-up
 docker-up:
@@ -33,22 +33,22 @@ docker-up:
 .PHONY: composer-i
 composer-i:
 	@echo "Composer install..."
-	docker exec ${DOCKER_WEB_CONTAINER} composer i --working-dir=${SERVER_PATH} --no-interaction
+	./scripts/composer-commands.sh install $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY: composer-u
 composer-u:
 	@echo "Composer update..."
-	docker exec ${DOCKER_WEB_CONTAINER} composer u --working-dir=${SERVER_PATH} --no-interaction
+	./scripts/composer-commands.sh update $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY: composer-require
 composer-require:
 	@echo "Composer require..."
-	docker exec ${DOCKER_WEB_CONTAINER} composer require $(filter-out $@,$(MAKECMDGOALS))
+	./scripts/composer-commands.sh require $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY: composer-remove
 composer-remove:
 	@echo "Composer remove..."
-	docker exec ${DOCKER_WEB_CONTAINER} composer remove $(filter-out $@,$(MAKECMDGOALS))
+	./scripts/composer-commands.sh remove $(filter-out $@,$(MAKECMDGOALS))
 
 .PHONY: docker-sh
 docker-sh:
