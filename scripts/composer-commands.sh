@@ -6,12 +6,13 @@
 . "$(dirname "${BASH_SOURCE[0]}")"/vars.sh local
 
 usage() {
-  printf "composer-commands.sh <command> <environment> [package]\n"
+  printf "composer-commands.sh <command> <environment> [package] [--dev]\n"
 }
 
 command=''
 environment=''
 package=''
+dev=''
 
 if [ -n "$1" ]; then
   command=$1
@@ -23,6 +24,10 @@ fi
 
 if [ -n "$3" ]; then
   package=$3
+fi
+
+if [ -n "$4" ]; then
+  dev=$4
 fi
 
 # Check that all required parameters are there.
@@ -49,6 +54,9 @@ echo "Environment: ${environment}"
 if [ -n "${package}" ]; then
   echo "Package: ${package}"
 fi
+if [ -n "${dev}" ]; then
+  echo "Dev mode: ${dev}"
+fi
 
 # Composer install.
 if [ "${command}" = "install" ]; then
@@ -69,11 +77,11 @@ fi
 # Composer require.
 if [ "${command}" = "require" ]; then
   echo "Composer require..."
-  docker exec ${DOCKER_WEB_CONTAINER} composer require ${package}
+  docker exec ${DOCKER_WEB_CONTAINER} composer require ${package} ${dev}
 fi
 
 # Composer remove.
 if [ "${command}" = "remove" ]; then
   echo "Composer remove..."
-  docker exec ${DOCKER_WEB_CONTAINER} composer remove ${package}
+  docker exec ${DOCKER_WEB_CONTAINER} composer remove ${package} ${dev}
 fi

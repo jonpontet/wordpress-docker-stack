@@ -25,6 +25,10 @@ fi
 
 echo "Event: ${event}"
 
+# Variables.
+uploads_dir=${SERVER_PATH}/${WEB_ROOT_FOLDER}/wp-content/uploads
+temp_uploads_dir=${SERVER_PATH}/tmp/uploads
+
 # pre-install-cmd or pre-update-cmd.
 if [[ "${event}" = "pre-install-cmd" || "${event}" = "pre-update-cmd" ]]; then
   cd ${SERVER_PATH} || {
@@ -52,11 +56,16 @@ if [[ "${event}" = "pre-install-cmd" || "${event}" = "pre-update-cmd" ]]; then
   done
 
   # Move uploads as it will be overwritten.
-  echo "Move uploads..."
-  mv ${SERVER_PATH}/${WEB_ROOT_FOLDER}/wp-content/uploads ${SERVER_PATH}/tmp/uploads || {
-    echo "Uploads folder not found"
-    exit 1
-  }
+  if [ -d "$uploads_dir" ]; then
+    echo "Move uploads..."
+    if [ -d "$temp_uploads_dir" ]; then
+      rm -fr $temp_uploads_dir
+    fi
+    mv ${uploads_dir} ${SERVER_PATH}/tmp || {
+      echo "Uploads folder not found"
+      exit 1
+    }
+  fi
 fi
 
 # post-install-cmd or post-update-cmd.
@@ -80,11 +89,13 @@ if [[ "${event}" = "post-install-cmd" || "${event}" = "post-update-cmd" ]]; then
   done
 
   # Copy back overwritten uploads.
-  echo "Move back uploads..."
-  cp ${SERVER_PATH}/tmp/uploads ${SERVER_PATH}/${WEB_ROOT_FOLDER}/wp-content/uploads || {
-    echo "Uploads folder not found"
-    exit 1
-  }
+  if [ -d "$temp_uploads_dir" ]; then
+    echo "Move back uploads..."
+    cp -r ${temp_uploads_dir} ${uploads_dir} || {
+      echo "Uploads folder not found"
+      exit 1
+    }
+  fi
 fi
 
 # post-install-cmd or post-update-cmd.

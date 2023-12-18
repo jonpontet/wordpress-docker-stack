@@ -10,6 +10,8 @@ My favourite Docker stack for WordPress.
 1. Add the name of this image to docker-compose.yml for the web container (line #31)
 1. Add the local hostname to docker-compose.yml (line #37, #41)
 1. Update the name, description and homepage in composer.json with your own
-1. Run `make docker-up`
-2. Run `make init local`
-3. Run `make `
+1. Start Docker: `make docker-up`
+1. Install Composer dependencies (including WordPress Core): `make composer-i [local|prod]`
+1. Initialise the environment: `make init [local|prod]`
+1. Install WordPress (in the database) via the browser with the famous 5-minute install
+1. Clean-up files, plugins & themes: `make clean-up [local|prod]`

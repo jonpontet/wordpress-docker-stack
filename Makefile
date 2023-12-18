@@ -10,6 +10,11 @@ init:
 	@echo "Initialising environment..."
 	./scripts/init.sh $(filter-out $@,$(MAKECMDGOALS))
 
+.PHONY: clean-up
+clean-up:
+	@echo "Cleaning-up files, plugins & themes..."
+	./scripts/clean-up.sh $(filter-out $@,$(MAKECMDGOALS))
+
 .PHONY: import-db
 import-db:
 	@echo "Importing DB..."
