@@ -22,7 +22,7 @@ define( 'DB_NAME', $db_name );
 define( 'DB_USER', $db_user );
 define( 'DB_PASSWORD', $db_password );
 define( 'DB_HOST', $db_host );
-define( 'DB_CHARSET', 'utf8' );
+define( 'DB_CHARSET', 'utf8mb4' );
 define( 'DB_COLLATE', '' );
 
 define( 'AUTH_KEY', 'put your unique phrase here' );
@@ -35,14 +35,14 @@ define( 'LOGGED_IN_SALT', 'put your unique phrase here' );
 define( 'NONCE_SALT', 'put your unique phrase here' );
 
 if ( isset( $_ENV['WP_DEBUG'] )
-     && strtolower($_ENV['WP_DEBUG']) == 'true' ) {
-	define( 'WP_DEBUG', true );
+    && strtolower($_ENV['WP_DEBUG']) == 'true' ) {
+    define( 'WP_DEBUG', true );
     define( 'WP_DEBUG_LOG', '/var/www/html/app/wp-content/uploads/debug.log' );
     define( 'SCRIPT_DEBUG', true );
     define( 'WP_DEBUG_DISPLAY', true );
     define( 'DISALLOW_FILE_EDIT', false );
 } else {
-	define( 'WP_DEBUG', false );
+    define( 'WP_DEBUG', false );
 }
 
 define( 'DISABLE_WP_CRON', true );
@@ -52,7 +52,7 @@ define( 'DISABLE_WP_CRON', true );
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
+    define( 'ABSPATH', __DIR__ . '/' );
 }
 
 /** Sets up WordPress vars and included files. */

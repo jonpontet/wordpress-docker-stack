@@ -6,11 +6,12 @@
 . "$(dirname "${BASH_SOURCE[0]}")"/vars.sh local
 
 usage() {
-  printf "composer-commands.sh [command] [environment]\n"
+  printf "composer-commands.sh <command> <environment> [package]\n"
 }
 
 command=''
 environment=''
+package=''
 
 if [ -n "$1" ]; then
   command=$1
@@ -18,6 +19,10 @@ fi
 
 if [ -n "$2" ]; then
   environment=$2
+fi
+
+if [ -n "$3" ]; then
+  package=$3
 fi
 
 # Check that all required parameters are there.
@@ -33,8 +38,17 @@ if [ -z "${environment}" ]; then
   exit 1
 fi
 
+if [ "${command}" = "require" ] || [ "${command}" = "remove" ] && [ -z "${package}" ]; then
+  echo "Missing package parameter."
+  usage
+  exit 1
+fi
+
 echo "Command: ${command}"
 echo "Environment: ${environment}"
+if [ -n "${package}" ]; then
+  echo "Package: ${package}"
+fi
 
 # Composer install.
 if [ "${command}" = "install" ]; then
@@ -55,11 +69,11 @@ fi
 # Composer require.
 if [ "${command}" = "require" ]; then
   echo "Composer require..."
-  docker exec ${DOCKER_WEB_CONTAINER} composer require $(filter-out $@,$(MAKECMDGOALS))
+  docker exec ${DOCKER_WEB_CONTAINER} composer require ${package}
 fi
 
 # Composer remove.
 if [ "${command}" = "remove" ]; then
   echo "Composer remove..."
-  docker exec ${DOCKER_WEB_CONTAINER} composer remove $(filter-out $@,$(MAKECMDGOALS))
+  docker exec ${DOCKER_WEB_CONTAINER} composer remove ${package}
 fi
