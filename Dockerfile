@@ -31,9 +31,7 @@ RUN curl https://getcomposer.org/installer > composer-setup.php && php composer-
 RUN chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer
 
 # Enable SSL for Apache.
-COPY ./conf/apache/certificate.pem /etc/ssl/certs/
-COPY ./conf/apache/certificate-key.pem /etc/ssl/private/
-RUN ln -s /etc/apache2/mods-available/ssl.load  /etc/apache2/mods-enabled/ssl.load
+RUN a2enmod ssl
 
 # Enable mod_rewrite for Apache.
 RUN a2enmod rewrite

@@ -44,6 +44,7 @@ services:
       - ./:${SERVER_PATH}
       - ./conf/php/php.ini:/usr/local/etc/php/php.ini
       - ./conf/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./conf/apache/certificates:/etc/apache2/certificates
 
   wp-cli:
     container_name: ${DOCKER_WP_CLI_CONTAINER}

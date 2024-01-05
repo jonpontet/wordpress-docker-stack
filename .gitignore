@@ -1,0 +1,24 @@
+# PHPStorm.
+.idea
+
+# Package management.
+node_modules
+vendor
+
+# App.
+app/*
+
+# Compilation.
+*.css.map
+*.js.map
+
+# Backups.
+backups
+
+# Temp.
+tmp
+
+# Environment.
+.env
+
+# Docker.
