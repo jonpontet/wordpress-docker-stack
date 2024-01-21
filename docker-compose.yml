@@ -20,7 +20,7 @@ services:
       MYSQL_PASSWORD: ${WP_DB_PASSWORD}
       MYSQL_DATABASE: ${WP_DB_NAME}
     ports:
-      - "3306:3306"
+      - "${LOCAL_DB_PORT}:3306"
     networks:
       - web
 
@@ -28,7 +28,7 @@ services:
     container_name: ${DOCKER_WEB_CONTAINER}
     depends_on:
       - db
-    image: image_name # Enter the name you built the image as
+    image: my-php-8.2-apache # Enter the name you built the image as
     env_file:
       - .env
     ports:
@@ -44,7 +44,7 @@ services:
       - ./:${SERVER_PATH}
       - ./conf/php/php.ini:/usr/local/etc/php/php.ini
       - ./conf/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
-      - ./conf/apache/certificates:/etc/apache2/certificates
+      - ../.certificates:/etc/apache2/certificates
 
   wp-cli:
     container_name: ${DOCKER_WP_CLI_CONTAINER}
@@ -67,8 +67,8 @@ services:
     container_name: ${DOCKER_MAILHOG_CONTAINER}
     image: arjenz/mailhog
     ports:
-      - "1025:1025" # smtp server
-      - "8025:8025" # web ui
+      - "${LOCAL_SMTP_PORT}:1025" # smtp server
+      - "${LOCAL_MAILHOG_PORT}:8025" # web ui
     networks:
       - web
 

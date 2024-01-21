@@ -1,6 +1,6 @@
 # Dockerfile
 # Defines an image.
-# Rebuild this image: docker build -t [image name]:latest .
+# Rebuild this image: docker build -t my-php-8.2-apache:latest .
 
 FROM php:8.2-apache
 
@@ -40,8 +40,8 @@ RUN a2enmod rewrite
 # https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html#configuring-xdebug-docker
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
-    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.idekey=wordpress-docker-stack" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.mode=off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.idekey=php:8.2-apache" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Necessary?

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d02a98912e0edf4422ad80464444841",
+    "content-hash": "1910c7735e598d92927e012d63ca21e8",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -5402,24 +5402,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/ewww-image-optimizer/"
-        },
-        {
-            "name": "wpackagist-plugin/hide-admin-notices",
-            "version": "1.2.3",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/hide-admin-notices/",
-                "reference": "tags/1.2.3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/hide-admin-notices.1.2.3.zip"
-            },
-            "require": {
-                "composer/installers": "^1.0 || ^2.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/hide-admin-notices/"
         },
         {
             "name": "wpackagist-plugin/safe-svg",

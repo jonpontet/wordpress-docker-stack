@@ -70,6 +70,19 @@ wp:
 	@echo "WP-CLI..."
 	docker exec ${DOCKER_WP_CLI_CONTAINER} wp --path=${SERVER_PATH}/${WEB_ROOT_FOLDER} $(filter-out $@,$(MAKECMDGOALS))
 
+.PHONY: enable-xdebug
+enable-xdebug:
+	@echo "Enable Xdebug..."
+	docker exec -it ${DOCKER_WEB_CONTAINER} sed -i 's/xdebug.mode=off/xdebug.mode=debug/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+	docker exec -it ${DOCKER_WEB_CONTAINER} /etc/init.d/apache2 restart
+
+.PHONY: disable-xdebug
+disable-xdebug:
+	@echo "Disable Xdebug..."
+	docker exec -it ${DOCKER_WEB_CONTAINER} sed -i 's/xdebug.mode=debug/xdebug.mode=off/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+	docker exec -it ${DOCKER_WEB_CONTAINER} apache2ctl restart
+
+
 # Pass arguments via command line: https://stackoverflow.com/a/6273809/1826109
 %:
 	@:
